@@ -234,7 +234,7 @@ jobs:
         fetch-depth: 5
     - uses: actions/setup-python@v5
       with:
-        python-version: '3.6'
+        python-version: '3.12'
     - name: Add LLVM apt repository
       run: |
         wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
@@ -285,7 +285,7 @@ jobs:
         mkdir bld_package
         cmake --install ./build --prefix ./bld_package
         mkdir -p ./bld_pacakge/share/renderdoc/pylibs/libs/
-        cp -r /usr/lib/python3.6 ./bld_pacakge/share/renderdoc/pylibs/libs/
+        cp -r /usr/lib/python3.12 ./bld_pacakge/share/renderdoc/pylibs/libs/
     - if: matrix.name == 'Clang 3.8 Release'
       name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
