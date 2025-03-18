@@ -3,11 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - v1.x
-      - ci-test
+      - dev-v1.x
   pull_request:
     branches:
-      - v1.x
+      - dev-v1.x
 
 defaults:
   run:
@@ -160,6 +159,20 @@ jobs:
           echo "::error::$(cat test.log)" | tr -d '\r' |  tr '\n' '\001' | sed -e 's#\x01#%0D%0A#g';
           exit 1;
         fi
+    - if: matrix.name == 'VS2015 x64 Release'
+      name: Package and Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+          name: RenderDoc_VS2015 x64 Release
+          path: |
+            ./x64/Release/*
+            !./x64/Release/*.lib
+            !./x64/Release/*.lib
+            !./x64/Release/*.pdb
+            !./x64/Release/*.iobj
+            !./x64/Release/*.ipdb
+            !./x64/Release/obj
+            !./x64/Release/pymodules
   docs:
     name: Documentation Build
     needs: [commit-msg, clang-format]
