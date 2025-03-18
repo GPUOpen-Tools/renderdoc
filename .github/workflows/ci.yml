@@ -160,10 +160,10 @@ jobs:
           exit 1;
         fi
     - if: matrix.name == 'VS2015 x64 Release'
-      name: Package and Upload Artifacts
+      name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
       with:
-          name: RenderDoc_VS2015 x64 Release
+          name: Build_Artifact_VS2015_x64_release_config
           path: |
             ./x64/Release/*
             !./x64/Release/*.lib
@@ -232,6 +232,9 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 5
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.6'
     - name: Add LLVM apt repository
       run: |
         wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
@@ -276,6 +279,20 @@ jobs:
           echo "::error::$(cat test.log)" | tr '\n' '\001' | sed -e 's#\x01#%0A#g';
           exit 1;
         fi
+    - if: matrix.name == 'Clang 3.8 Release'
+      name: CMake Install
+      run: |
+        mkdir bld_package
+        cmake --install ./build --prefix ./bld_package
+        mkdir -p ./bld_pacakge/share/renderdoc/pylibs/libs/
+        cp -r /usr/lib/python3.6 ./bld_pacakge/share/renderdoc/pylibs/libs/
+    - if: matrix.name == 'Clang 3.8 Release'
+      name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+          name: Build_Artifact_clang_3_8_release_config
+          path: |
+            ./bld_package/
   android:
     name: Android
     needs: [commit-msg, clang-format]
