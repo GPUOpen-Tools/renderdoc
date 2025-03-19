@@ -293,6 +293,7 @@ jobs:
           name: Build_Artifact_clang_3_8_release_config
           path: |
             ./bld_package/
+            !./bld_package/share/renderdoc/pylibs/libs/python3.12/**/__pycache__/*
   android:
     name: Android
     needs: [commit-msg, clang-format]
