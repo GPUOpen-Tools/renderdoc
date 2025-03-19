@@ -284,8 +284,8 @@ jobs:
       run: |
         mkdir bld_package
         sudo cmake --install ./build --prefix ./bld_package
-        mkdir -p ./bld_pacakge/share/renderdoc/pylibs/libs/
-        sudo cp -r /opt/hostedtoolcache/Python/3.12.9/x64/lib/python3.12 ./bld_pacakge/share/renderdoc/pylibs/libs/
+        mkdir -p ./bld_package/share/renderdoc/pylibs/libs/
+        sudo cp -r /opt/hostedtoolcache/Python/3.12.9/x64/lib/python3.12 ./bld_package/share/renderdoc/pylibs/libs/
     - if: matrix.name == 'Clang 3.8 Release'
       name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
